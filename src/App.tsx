@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { type Entry } from './types'
-import { PodcastListComponent } from './components/PodcastsListComponent'
+import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
+import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
 
 const isDayPassed = () => {
   if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
@@ -14,7 +15,7 @@ const isDayPassed = () => {
     }
     return false
   }
-  return false
+  return true
 }
 
 const fetchPodcasts = async () => {
@@ -53,10 +54,13 @@ export const App = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Postify: your podcasts app</h1>
-      <PodcastListComponent podcasts={podcasts} />
-    </div>
+    <>
+      <HeaderComponent />
+      <main>
+        <h1 className="main-title">Postify: your podcasts app</h1>
+        <PodcastListComponent podcasts={podcasts} />        
+      </main>
+    </>
   )
 }
 

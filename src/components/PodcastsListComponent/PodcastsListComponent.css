@@ -1,0 +1,33 @@
+.podcast-card {
+  display: inline-block;
+  width: 100%;
+}
+.podcast-card__card {
+  margin: 2rem;
+  display: grid
+}
+.podcast-card__title {
+  font-size: 16px;
+  color: hsl(0, 0%, 33%);
+  font-weight: 600;
+}
+.podcast-card__author {
+  color: #595959;
+}
+.podcast-card__img {
+  border-radius: 100%;
+  position: relative;
+  top: 50%
+}
+.podcast-card__text-container {
+  border: 1px solid;
+  background-color: #fff;
+  padding: 30% 1rem 1rem 1rem;
+  border-radius: 4px;
+}
+
+@media(min-width: 768px) {
+  .podcast-card {
+    width: 25%;
+  }
+}
