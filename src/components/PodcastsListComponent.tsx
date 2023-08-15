@@ -4,7 +4,7 @@ interface Props {
   podcasts: Entry[]
 }
 
-export function PodcastListComponent ({ podcasts }: Props) {
+export const PodcastListComponent = ({ podcasts }: Props) => {
   return (
     <div>
       { podcasts.map(podcast => {
