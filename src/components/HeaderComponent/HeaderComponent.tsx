@@ -4,7 +4,9 @@ export const HeaderComponent = () => {
   return (
     <header className="header">
       <div className="header-content">
-        <p>Postify</p>
+        <a href="/">
+          <p>Postify</p>          
+        </a>
       </div>
     </header>
   )

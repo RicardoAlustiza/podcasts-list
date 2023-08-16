@@ -2,6 +2,9 @@
   display: inline-block;
   width: 100%;
 }
+.podcast-card a {
+  text-decoration: none;
+}
 .podcast-card__card {
   margin: 2rem;
   display: grid

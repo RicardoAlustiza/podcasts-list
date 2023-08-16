@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { type Entry } from './types'
 import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
 import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
+import { ErrorPage } from './components/RouteErrorComponent/RouteErrorComponent'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 
 const isDayPassed = () => {
   if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
@@ -46,7 +49,6 @@ const fetchPodcasts = async () => {
 export const App = () => {
 
   const [podcasts, setPodcasts] = useState<Entry[]>([])
-  const [filterPodcast, setFilterPodcast] = useState<string | null>(null)
 
   useEffect(() => {
     fetchPodcasts()
@@ -54,30 +56,24 @@ export const App = () => {
       .catch(err => console.log(err))
   }, [])
 
-  const filteredPodcasts = useMemo(() => {
-    if(filterPodcast !== null && filterPodcast.length > 0) {
-      if(podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase())).length > 0) {
-        return podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
-      }
-      else if(podcasts.filter(podcast => podcast['im:artist'].label.toLowerCase().includes(filterPodcast.toLowerCase())).length > 0) {
-        return podcasts.filter(podcast => podcast['im:artist'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
-      }
-      else {
-        return []
-      }
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <PodcastListComponent podcasts={podcasts} />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/podcast/:id",
+      element: <PodcastDetailComponent />,
+      errorElement: <ErrorPage />
     }
-    return podcasts
-  }, [filterPodcast, podcasts])
+  ]);
 
   return (
     <>
       <HeaderComponent />
       <main>
-        <div>
-          <h1 className="main-title">Postify: Your podcasts App</h1>
-          { filteredPodcasts.length } <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />    
-        </div>
-        <PodcastListComponent podcasts={filteredPodcasts} />        
+        <RouterProvider router={router} />
       </main>
     </>
   )
