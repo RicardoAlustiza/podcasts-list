@@ -56,9 +56,15 @@ export const App = () => {
 
   const filteredPodcasts = useMemo(() => {
     if(filterPodcast !== null && filterPodcast.length > 0) {
-      return (
-        podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
-      )
+      if(podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase())).length > 0) {
+        return podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
+      }
+      else if(podcasts.filter(podcast => podcast['im:artist'].label.toLowerCase().includes(filterPodcast.toLowerCase())).length > 0) {
+        return podcasts.filter(podcast => podcast['im:artist'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
+      }
+      else {
+        return []
+      }
     }
     return podcasts
   }, [filterPodcast, podcasts])
@@ -68,7 +74,7 @@ export const App = () => {
       <HeaderComponent />
       <main>
         <div>
-          <h1 className="main-title">Postify: your podcasts app</h1>
+          <h1 className="main-title">Postify: Your podcasts App</h1>
           { filteredPodcasts.length } <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />    
         </div>
         <PodcastListComponent podcasts={filteredPodcasts} />        
