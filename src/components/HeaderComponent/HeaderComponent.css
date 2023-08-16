@@ -8,6 +8,7 @@
   position: fixed;
   z-index: 1;
   height: 70px;
+  top: 0;
 }
 .header-content {
   text-align: center;

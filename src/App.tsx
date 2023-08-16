@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { type Entry } from './types'
 import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
@@ -46,6 +46,7 @@ const fetchPodcasts = async () => {
 export const App = () => {
 
   const [podcasts, setPodcasts] = useState<Entry[]>([])
+  const [filterPodcast, setFilterPodcast] = useState<string | null>(null)
 
   useEffect(() => {
     fetchPodcasts()
@@ -53,12 +54,24 @@ export const App = () => {
       .catch(err => console.log(err))
   }, [])
 
+  const filteredPodcasts = useMemo(() => {
+    if(filterPodcast !== null && filterPodcast.length > 0) {
+      return (
+        podcasts.filter(podcast => podcast['im:name'].label.toLowerCase().includes(filterPodcast.toLowerCase()))
+      )
+    }
+    return podcasts
+  }, [filterPodcast, podcasts])
+
   return (
     <>
       <HeaderComponent />
       <main>
-        <h1 className="main-title">Postify: your podcasts app</h1>
-        <PodcastListComponent podcasts={podcasts} />        
+        <div>
+          <h1 className="main-title">Postify: your podcasts app</h1>
+          { filteredPodcasts.length } <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />    
+        </div>
+        <PodcastListComponent podcasts={filteredPodcasts} />        
       </main>
     </>
   )
