@@ -29,7 +29,7 @@ export const PodcastDetailComponent = () => {
   return (
     <div>{ podcastDetails.map(detail => {
       return (
-        <div>
+        <div key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId }>
           <p>{ detail.trackName }</p>
         </div>
       )
