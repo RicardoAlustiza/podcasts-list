@@ -3,8 +3,7 @@ import './App.css'
 import { type Entry } from './types'
 import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
 import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
-import { ErrorPage } from './components/RouteErrorComponent/RouteErrorComponent'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 
 const isDayPassed = () => {
@@ -56,26 +55,16 @@ export const App = () => {
       .catch(err => console.log(err))
   }, [])
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <PodcastListComponent podcasts={podcasts} />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/podcast/:id",
-      element: <PodcastDetailComponent />,
-      errorElement: <ErrorPage />
-    }
-  ]);
-
   return (
-    <>
+    <BrowserRouter>
       <HeaderComponent />
       <main>
-        <RouterProvider router={router} />
+        <Routes>
+          <Route path={'/'} element={<PodcastListComponent podcasts={podcasts} />}/>
+          <Route path={'/podcast/:id'} element={<PodcastDetailComponent />} />   
+        </Routes>
       </main>
-    </>
+    </BrowserRouter>
   )
 }
 
