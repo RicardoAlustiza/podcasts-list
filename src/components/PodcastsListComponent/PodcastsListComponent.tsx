@@ -29,13 +29,15 @@ export const PodcastListComponent = ({ podcasts }: Props) => {
     <>
       <div>
         <h1 className="main-title">Postify: Your podcasts App</h1>
-        { filteredPodcasts.length } <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />
+        <span className="filtered-list-lenght">{ filteredPodcasts.length }</span>
+        <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />
       </div>
       <div className="podcasts-list">
         { filteredPodcasts.map(podcast => {
           return (
               <div key={podcast.id.attributes['im:id']} className='podcast-card'>
-                <Link to={`/podcast/${podcast.id.attributes['im:id']}`}>
+                <Link to={`/podcast/${podcast.id.attributes['im:id']}`}
+                state={{ podcastSummary: podcast.summary.label, podcastTitle: podcast.title.label, podcastImg: podcast['im:image'][2].label}}>
                   <div className="podcast-card__card">
                     <div className="podcast-card__img-container">
                       <img className="podcast-card__img" src={ podcast['im:image'][2].label }/>
