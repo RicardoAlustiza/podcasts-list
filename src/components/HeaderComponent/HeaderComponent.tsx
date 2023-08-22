@@ -5,9 +5,11 @@ export const HeaderComponent = () => {
   return (
     <header className="header">
       <div className="header-content">
-        <Link to={'/'}>
-          <p>Postify</p>          
-        </Link>
+        <div className="header-title">
+          <Link to={'/'}>
+            <p>Postify</p>          
+          </Link>          
+        </div>
       </div>
     </header>
   )

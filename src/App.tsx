@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 import { PodcastEpisodeComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastEpisodeComponent/PodcastEpisodeComponent'
+import { SpinnerComponent } from './components/shared/SpinnerComponent/SpinnerComponent'
 
 const isDayPassed = () => {
   if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
@@ -49,21 +50,26 @@ const fetchPodcasts = async () => {
 export const App = () => {
 
   const [podcasts, setPodcasts] = useState<Entry[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    setIsLoading(true)
+  
     fetchPodcasts()
       .then(podcasts => setPodcasts(podcasts))
       .catch(err => console.log(err))
+      .finally(() => setIsLoading(false))
   }, [])
 
   return (
     <BrowserRouter>
-      <HeaderComponent />
+      <HeaderComponent/>
       <main>
+        { isLoading && <SpinnerComponent/>}
         <Routes>
-          <Route path={'/'} element={<PodcastListComponent podcasts={podcasts} />}/>
-          <Route path={'/podcast/:id'} element={<PodcastDetailComponent />} />
-          <Route path={'/podcast/:podcastId/episode/:episodeId'} element={<PodcastEpisodeComponent />} />
+          <Route path={'/'} element={<PodcastListComponent podcasts={podcasts}/>}/>
+          <Route path={'/podcast/:id'} element={<PodcastDetailComponent/>}/>
+          <Route path={'/podcast/:podcastId/episode/:episodeId'} element={<PodcastEpisodeComponent/>}/>
         </Routes>
       </main>
     </BrowserRouter>
