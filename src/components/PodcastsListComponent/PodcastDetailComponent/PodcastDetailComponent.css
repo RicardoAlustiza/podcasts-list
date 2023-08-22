@@ -40,6 +40,9 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid #000;
 }
+.episodes-list-table {
+  width: 100%;
+}
 
 @media (min-width: 768px) {
   .podcast-details__container {

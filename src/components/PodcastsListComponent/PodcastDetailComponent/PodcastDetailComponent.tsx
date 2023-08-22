@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { type PodcastDetailsResult } from "../../../podcastDetailType"
 import './PodcastDetailComponent.css'
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 const formatMilliseconds = (duration: number) => {
   const minutes = Math.floor(duration / 60000)
@@ -61,6 +61,7 @@ const fetchPodcast = async (podcastId: string) => {
 export const PodcastDetailComponent = () => {
 
   const [podcastDetails, setPodcastDetails] = useState<PodcastDetailsResult[]>([])
+  const [podcastHeader, setPodcastHeader] = useState({} as PodcastDetailsResult)
   const location = useLocation()
   const { podcastSummary, podcastTitle, podcastImg } = location.state as { podcastSummary: string, podcastTitle: string, podcastImg: string }
 
@@ -69,8 +70,9 @@ export const PodcastDetailComponent = () => {
 
     fetchPodcast(podcastId)
       .then(podcastDetails => {
-        podcastDetails.shift()
+        const podcastHeader = podcastDetails.shift()
 
+        setPodcastHeader(podcastHeader)
         setPodcastDetails(podcastDetails)
       })
       .catch(err => console.log(err))
@@ -98,16 +100,37 @@ export const PodcastDetailComponent = () => {
             <div className="episodes-count">
               Episodes: { podcastDetails.length }
             </div>
-            <div className="episodes-list">
-              { podcastDetails.map(detail => {
-                return (
-                  <div key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId }>
-                    <p>{ detail.trackName } - { formatDate(detail.releaseDate) } - { formatMilliseconds(detail.trackTimeMillis) }</p>
-                  </div>
-                )
-                }) 
-              }
-            </div>
+            <table className="episodes-list-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Date</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody className="episodes-list">
+                { podcastDetails.map((detail, index) => {
+                  const backgroundColor = index % 2 === 0 ? '#e4e4e4' : '#fff'
+
+                  return (
+                    <tr key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId } style={{ backgroundColor: backgroundColor}}>
+                      <td>
+                        <Link to={`/podcast/${podcastHeader.collectionId}/episode/${detail.trackId}`}>
+                          { detail.trackName }
+                        </Link>
+                      </td>
+                      <td>
+                        { formatDate(detail.releaseDate) }
+                      </td>
+                      <td>
+                        { formatMilliseconds(detail.trackTimeMillis) }
+                      </td>
+                    </tr>
+                  )
+                  }) 
+                }
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

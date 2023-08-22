@@ -5,6 +5,7 @@ import { PodcastListComponent } from './components/PodcastsListComponent/Podcast
 import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
+import { PodcastEpisodeComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastEpisodeComponent/PodcastEpisodeComponent'
 
 const isDayPassed = () => {
   if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
@@ -61,7 +62,8 @@ export const App = () => {
       <main>
         <Routes>
           <Route path={'/'} element={<PodcastListComponent podcasts={podcasts} />}/>
-          <Route path={'/podcast/:id'} element={<PodcastDetailComponent />} />   
+          <Route path={'/podcast/:id'} element={<PodcastDetailComponent />} />
+          <Route path={'/podcast/:podcastId/episode/:episodeId'} element={<PodcastEpisodeComponent />} />
         </Routes>
       </main>
     </BrowserRouter>
