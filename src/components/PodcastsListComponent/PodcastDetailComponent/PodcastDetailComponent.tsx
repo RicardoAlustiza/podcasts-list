@@ -122,7 +122,8 @@ export const PodcastDetailComponent = () => {
                       <tr key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId } style={{ backgroundColor: backgroundColor}}>
                         <td>
                           <Link to={`/podcast/${podcastHeader.collectionId}/episode/${detail.trackId}`}
-                          state={{ podcastSummary: podcastSummary, podcastTitle: podcastTitle, podcastImg: podcastImg}}>
+                          state={{ podcastSummary: podcastSummary, podcastTitle: podcastTitle, podcastImg: podcastImg,
+                          trackName: detail.trackName, trackDescription: detail.description, episodeURL: detail.episodeUrl }}>
                             { detail.trackName }
                           </Link>
                         </td>

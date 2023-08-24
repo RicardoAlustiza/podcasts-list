@@ -6,7 +6,8 @@ export const PodcastEpisodeComponent = () => {
 
   const [podcastId, setPodcastId] = useState<string>('')
   const location = useLocation()
-  const { podcastSummary, podcastTitle, podcastImg } = location.state as { podcastSummary: string, podcastTitle: string, podcastImg: string }
+  const { podcastSummary, podcastTitle, podcastImg, trackName, trackDescription, episodeURL } = location.state as
+  { podcastSummary: string, podcastTitle: string, podcastImg: string, trackName: string, trackDescription: string, episodeURL: string }
   
   useEffect(() => {
     const podcastId = window.location.pathname.split('/')[2]
@@ -40,7 +41,13 @@ export const PodcastEpisodeComponent = () => {
         <div className="podcast-episode__current">
           <div className="podcast-episode__current-card">
             <div className="episode__card-title">
-              Episode Title
+              { trackName }
+            </div>
+            <div className="episode__card-description">
+              { trackDescription }
+            </div>
+            <div className="episode__card-track">
+              <audio className="episode-track" src={ episodeURL } controls></audio>
             </div>
           </div>
         </div>
