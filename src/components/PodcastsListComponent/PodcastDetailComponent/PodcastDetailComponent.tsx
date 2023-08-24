@@ -6,7 +6,7 @@ import { SpinnerComponent } from "../../shared/SpinnerComponent/SpinnerComponent
 
 const formatMilliseconds = (duration: number) => {
 
-  return new Date(duration).toISOString().slice(11, 19)
+  return !isNaN(duration) ? new Date(duration).toISOString().slice(11, 19) : '00:00:00'
 }
 
 const formatDate = (date: Date) => {
