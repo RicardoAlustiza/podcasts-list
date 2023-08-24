@@ -5,10 +5,8 @@ import { Link, useLocation } from "react-router-dom"
 import { SpinnerComponent } from "../../shared/SpinnerComponent/SpinnerComponent"
 
 const formatMilliseconds = (duration: number) => {
-  const minutes = Math.floor(duration / 60000)
-  const seconds = ((duration % 60000) / 1000).toFixed(0)
 
-  return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`
+  return new Date(duration).toISOString().slice(11, 19)
 }
 
 const formatDate = (date: Date) => {
