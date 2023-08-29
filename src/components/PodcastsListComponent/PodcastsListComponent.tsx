@@ -29,8 +29,10 @@ export const PodcastListComponent = ({ podcasts }: Props) => {
     <>
       <div>
         <h1 className="main-title">Postify: Your podcasts App</h1>
-        <span className="filtered-list-lenght">{ filteredPodcasts.length }</span>
-        <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />
+        <div className="filter-list-container">
+          <span className="filtered-list-lenght">{ filteredPodcasts.length }</span>
+          <input type="text" placeholder="Search podcast" onChange={(e) => setFilterPodcast(e.target.value)} />          
+        </div>
       </div>
       <div className="podcasts-list">
         { filteredPodcasts.map(podcast => {

@@ -40,4 +40,7 @@
   .podcast-card {
     width: 25%;
   }
+  .filter-list-container {
+    text-align: right;
+  }
 }
