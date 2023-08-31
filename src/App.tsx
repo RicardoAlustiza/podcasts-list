@@ -3,7 +3,7 @@ import './App.css'
 import { type Entry } from './types/podcastsListType'
 import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
 import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 import { PodcastEpisodeComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastEpisodeComponent/PodcastEpisodeComponent'
 import { SpinnerComponent } from './components/shared/SpinnerComponent/SpinnerComponent'
@@ -57,6 +57,7 @@ export const App = () => {
           <Route path={'/'} element={<PodcastListComponent podcasts={podcasts}/>}/>
           <Route path={'/podcast/:id'} element={<PodcastDetailComponent/>}/>
           <Route path={'/podcast/:podcastId/episode/:episodeId'} element={<PodcastEpisodeComponent/>}/>
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
     </BrowserRouter>

@@ -35,6 +35,11 @@ export const PodcastDetailComponent = () => {
   const [podcastHeader, setPodcastHeader] = useState({} as PodcastDetailsResult)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const location = useLocation()
+
+  if(!location.state) {
+    window.location.href = '/'
+  }
+
   const { podcastSummary, podcastTitle, podcastImg } = location.state as { podcastSummary: string, podcastTitle: string, podcastImg: string }
 
   useEffect(() => {

@@ -6,6 +6,11 @@ export const PodcastEpisodeComponent = () => {
 
   const [podcastId, setPodcastId] = useState<string>('')
   const location = useLocation()
+
+  if(!location.state) {
+    window.location.href = '/'
+  }
+
   const { podcastSummary, podcastTitle, podcastImg, trackName, trackDescription, episodeURL } = location.state as
   { podcastSummary: string, podcastTitle: string, podcastImg: string, trackName: string, trackDescription: string, episodeURL: string }
   
