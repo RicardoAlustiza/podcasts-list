@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { type Entry } from './types'
+import { type Entry } from './types/podcastsListType'
 import { PodcastListComponent } from './components/PodcastsListComponent/PodcastsListComponent'
 import { HeaderComponent } from './components/HeaderComponent/HeaderComponent'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'

@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react"
-import { type PodcastDetailsResult } from "../../../podcastDetailType"
+import { type PodcastDetailsResult } from "../../../types/podcastDetailType"
 import './PodcastDetailComponent.css'
-import { Link, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { SpinnerComponent } from "../../shared/SpinnerComponent/SpinnerComponent"
-import { format, isYesterday } from "date-fns"
-
-const formatMilliseconds = (duration: number) => {
-
-  return !isNaN(duration) ? new Date(duration).toISOString().slice(11, 19) : '00:00:00'
-}
+import { isYesterday } from "date-fns"
+import { PodcastDetailItemComponent } from "./PodcastDetailItemComponent/PodcastDetailItemComponent"
 
 const fetchPodcast = async (podcastId: string) => {
   if(localStorage.getItem(`firstLoadPodcastDetail${podcastId}`) !== null && !isYesterday(Date.parse(localStorage.getItem(`firstLoadPodcastDetailDate${podcastId}`) as string))) {
@@ -90,25 +86,9 @@ export const PodcastDetailComponent = () => {
                 </thead>
                 <tbody className="episodes-list">
                   { podcastDetails.map((detail, index) => {
-                    const backgroundColor = index % 2 === 0 ? '#e4e4e4' : '#fff'
-
-                    return (
-                      <tr key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId } style={{ backgroundColor: backgroundColor}}>
-                        <td>
-                          <Link to={`/podcast/${podcastHeader.collectionId}/episode/${detail.trackId}`}
-                          state={{ podcastSummary: podcastSummary, podcastTitle: podcastTitle, podcastImg: podcastImg,
-                          trackName: detail.trackName, trackDescription: detail.description, episodeURL: detail.episodeUrl }}>
-                            { detail.trackName }
-                          </Link>
-                        </td>
-                        <td>
-                          { format(new Date(detail.releaseDate), 'dd/MM/yyyy') }
-                        </td>
-                        <td>
-                          { formatMilliseconds(detail.trackTimeMillis) }
-                        </td>
-                      </tr>
-                    )
+                      return <PodcastDetailItemComponent key={ detail.episodeGuid ? detail.episodeGuid : detail.trackId }
+                      detail={detail} index={index} podcastHeader={podcastHeader}
+                      podcastSummary={podcastSummary} podcastTitle={podcastTitle} podcastImg={podcastImg}/>
                     }) 
                   }
                 </tbody>
