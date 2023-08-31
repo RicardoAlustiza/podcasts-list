@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import { type Entry } from '../../types/podcastsListType'
-import { Link } from "react-router-dom";
 import './PodcastsListComponent.css'
 import { PodcastItemComponent } from './PodcastItemComponent/PodcastItemComponent';
 
