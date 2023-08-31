@@ -7,23 +7,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 import { PodcastEpisodeComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastEpisodeComponent/PodcastEpisodeComponent'
 import { SpinnerComponent } from './components/shared/SpinnerComponent/SpinnerComponent'
-
-const isDayPassed = () => {
-  if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
-    const now = Date.now()
-    const oneDay = 24 * 60 * 60 * 1000
-    const createdAt = Date.parse(localStorage.getItem('firstLoadPodcastsListDate') as string)
-
-    if(now - createdAt > oneDay) {
-      return true
-    }
-    return false
-  }
-  return true
-}
+import { isYesterday } from 'date-fns'
 
 const fetchPodcasts = async () => {
-  if (localStorage.getItem('firstLoadPodcastsList') !== null && !isDayPassed()) {
+  if (localStorage.getItem('firstLoadPodcastsList') !== null && !isYesterday(Date.parse(localStorage.getItem('firstLoadPodcastsListDate') as string))) {
 
     return JSON.parse(localStorage.getItem('firstLoadPodcastsList') as string)
   }

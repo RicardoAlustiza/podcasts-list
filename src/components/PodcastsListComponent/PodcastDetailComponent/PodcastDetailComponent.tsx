@@ -3,39 +3,15 @@ import { type PodcastDetailsResult } from "../../../podcastDetailType"
 import './PodcastDetailComponent.css'
 import { Link, useLocation } from "react-router-dom"
 import { SpinnerComponent } from "../../shared/SpinnerComponent/SpinnerComponent"
+import { format, isYesterday } from "date-fns"
 
 const formatMilliseconds = (duration: number) => {
 
   return !isNaN(duration) ? new Date(duration).toISOString().slice(11, 19) : '00:00:00'
 }
 
-const formatDate = (date: Date) => {
-  const dateObj = new Date(date)
-  const day = dateObj.getDate()
-  const month = dateObj.getMonth()
-  const year = dateObj.getFullYear()
-
-  return `${day}/${month}/${year}`
-}
-
-const isDayPassed = (podcastId: string) => {
-  if(localStorage.getItem(`firstLoadPodcastDetailDate${podcastId}`) !== null) {
-    if(localStorage.getItem('firstLoadPodcastsListDate') !== null) {
-      const now = Date.now()
-      const oneDay = 24 * 60 * 60 * 1000
-      const createdAt = Date.parse(localStorage.getItem(`firstLoadPodcastDetailDate${podcastId}`) as string)
-  
-      if(now - createdAt > oneDay) {
-        return true
-      }
-      return false
-    }
-    return true
-  }
-}
-
 const fetchPodcast = async (podcastId: string) => {
-  if(localStorage.getItem(`firstLoadPodcastDetail${podcastId}`) !== null && !isDayPassed(podcastId)) {
+  if(localStorage.getItem(`firstLoadPodcastDetail${podcastId}`) !== null && !isYesterday(Date.parse(localStorage.getItem(`firstLoadPodcastDetailDate${podcastId}`) as string))) {
 
     return JSON.parse(localStorage.getItem(`firstLoadPodcastDetail${podcastId}`) as string)
   }
@@ -47,9 +23,9 @@ const fetchPodcast = async (podcastId: string) => {
           return await res.json()
         })
         .then(res => {
-          let firstLoadDate = new Date()
+          let firstLoadDate = Date.now()
           localStorage.setItem(`firstLoadPodcastDetail${podcastId}`, JSON.stringify(res.results))
-          localStorage.setItem(`firstLoadPodcastDetailDate${podcastId}`, firstLoadDate.toDateString())
+          localStorage.setItem(`firstLoadPodcastDetailDate${podcastId}`, firstLoadDate.toString())
 
           return res.results
         })
@@ -126,7 +102,7 @@ export const PodcastDetailComponent = () => {
                           </Link>
                         </td>
                         <td>
-                          { formatDate(detail.releaseDate) }
+                          { format(new Date(detail.releaseDate), 'dd/MM/yyyy') }
                         </td>
                         <td>
                           { formatMilliseconds(detail.trackTimeMillis) }
