@@ -1,13 +1,14 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { type Entry } from '../../types/podcastsListType'
 import './PodcastsListComponent.css'
 import { PodcastItemComponent } from './PodcastItemComponent/PodcastItemComponent';
+import { SpinnerComponent } from '../shared/SpinnerComponent/SpinnerComponent';
+import { fetchPodcasts } from '../../services/utils.services';
 
-interface Props {
-  podcasts: Entry[]
-}
+export const PodcastListComponent = () => {
 
-export const PodcastListComponent = ({ podcasts }: Props) => {
+  const [podcasts, setPodcasts] = useState<Entry[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [filterPodcast, setFilterPodcast] = useState<string | null>(null)
 
   const filteredPodcasts = useMemo(() => {
@@ -25,8 +26,18 @@ export const PodcastListComponent = ({ podcasts }: Props) => {
     return podcasts
   }, [filterPodcast, podcasts])
 
+  useEffect(() => {
+    setIsLoading(true)
+  
+    fetchPodcasts()
+      .then(podcasts => setPodcasts(podcasts))
+      .catch(err => console.log(err))
+      .finally(() => setIsLoading(false))
+  }, [])
+
   return (
     <>
+      { isLoading && <SpinnerComponent/>}
       <div>
         <h1 className="main-title">Postify: Your podcasts App</h1>
         <div className="filter-list-container">
