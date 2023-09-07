@@ -30,6 +30,3 @@ This application is running on React using Typescript and Vite as a bundler.
   - The **Model** is represented by the **types** folder.
   - The **View** is represented by the **components** folder.
   - The **Controller** is represented by the **services** folder.
-
-
-
