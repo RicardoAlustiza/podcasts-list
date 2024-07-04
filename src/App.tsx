@@ -5,7 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { PodcastDetailComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastDetailComponent'
 import { PodcastEpisodeComponent } from './components/PodcastsListComponent/PodcastDetailComponent/PodcastEpisodeComponent/PodcastEpisodeComponent'
 
-export const App = () => {
+const App = () => {
 
   return (
     <BrowserRouter>
